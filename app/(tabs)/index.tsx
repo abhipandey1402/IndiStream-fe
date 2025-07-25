@@ -438,10 +438,10 @@ export default function HomeScreen() {
             <TouchableOpacity className="p-2 mr-2" onPress={() => setShowSearch(!showSearch)}>
               <Ionicons name="search" size={22} color="#fff" />
             </TouchableOpacity>
-            <TouchableOpacity className="p-2 relative">
+            {/* <TouchableOpacity className="p-2 relative">
               <Ionicons name="notifications-outline" size={22} color="#fff" />
               <View className="absolute top-1.5 right-1.5 w-2 h-2 bg-orange-500 rounded-full" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
 
