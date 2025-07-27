@@ -4,6 +4,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -18,6 +19,7 @@ import {
   View
 } from 'react-native';
 import UploadModal from '../../components/uploadModal';
+
 
 // API Configuration
 const API_BASE_URL = 'http://3.110.108.64:8080';
@@ -285,10 +287,17 @@ export default function HomeScreen() {
   // Handle video playback
   const handleVideoPress = async (video: Video) => {
     try {
-      const playbackUrl = await videoAPI.getPlaybackURL(video.id);
+      const playbackUrl = await videoAPI.getPlaybackURL(video.filename.substring(7));
+      console.log(playbackUrl);
       // Here you would typically navigate to a video player screen
       // For now, just show an alert with the playback URL
-      Alert.alert('Playback URL', playbackUrl);
+      router.push({
+        pathname: '/video-player',
+        params: {
+          videoData: JSON.stringify(video),
+          playbackUrl: playbackUrl,
+        },
+      });
     } catch (error) {
       console.error('Failed to get playback URL:', error);
       Alert.alert('Error', 'Failed to load video for playback.');
@@ -411,7 +420,7 @@ export default function HomeScreen() {
     </TouchableOpacity>
   );
 
-  
+
   return (
     <View className="flex-1 bg-blue-950">
       <StatusBar barStyle="light-content" backgroundColor="#1A1D29" />
@@ -438,10 +447,6 @@ export default function HomeScreen() {
             <TouchableOpacity className="p-2 mr-2" onPress={() => setShowSearch(!showSearch)}>
               <Ionicons name="search" size={22} color="#fff" />
             </TouchableOpacity>
-            {/* <TouchableOpacity className="p-2 relative">
-              <Ionicons name="notifications-outline" size={22} color="#fff" />
-              <View className="absolute top-1.5 right-1.5 w-2 h-2 bg-orange-500 rounded-full" />
-            </TouchableOpacity> */}
           </View>
         </View>
 
